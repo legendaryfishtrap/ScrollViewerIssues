@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BehaviorSave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>TypographyBehavior</Name>
+  <RequiredVariables />
+  <Category>
+    <Name>TypographyCategory</Name>
+    <IsSetRecursively>false</IsSetRecursively>
+    <State>
+      <Name>White</Name>
+    </State>
+    <State>
+      <Name>Black</Name>
+    </State>
+    <State>
+      <Name>Cyan</Name>
+    </State>
+    <State>
+      <Name>Gold</Name>
+    </State>
+    <State>
+      <Name>Green</Name>
+    </State>
+    <State>
+      <Name>Red</Name>
+    </State>
+  </Category>
+  <RequiredInstances />
+  <RequiredAnimations />
+</BehaviorSave>
