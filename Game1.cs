@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameGum.Forms;
-using MonoGameGum.GueDeriving;
 using RenderingLibrary;
 using ScrollViewerIssues.Runtimes;
 using ToolsUtilities;
@@ -18,6 +17,8 @@ namespace ScrollViewerIssues
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private GraphicalUiElement currentScreen;
+
+        public static Texture2D texture;
 
         public Game1()
         {
@@ -43,69 +44,20 @@ namespace ScrollViewerIssues
             ObjectFinder.Self.GumProjectSave = gumProject;
             gumProject.Initialize();
 
-            #region Register Gue Types
             ElementSaveExtensions.RegisterGueInstantiation(
-                "ingame\\Default",
-                () => new InGameDefaultRuntime()
+                "Item",
+                () => new ItemRuntime()
             );
 
-            ElementSaveExtensions.RegisterGueInstantiationType(
-                "Ultrawave/ScrollBar",
-                typeof(CustomScrollBarRuntime)
-            );
-
-            ElementSaveExtensions.RegisterGueInstantiationType(
-                "Ultrawave/ScrollViewer",
-                typeof(CustomScrollViewerRuntime)
-            );
-
-            ElementSaveExtensions.RegisterGueInstantiationType(
-                "Ultrawave/InGame/Drawer/Upgrades/DrawerBody",
-                typeof(DrawerBodyRuntime)
-            );
-
-            ElementSaveExtensions.RegisterGueInstantiationType(
-                "Ultrawave/InGame/Drawer/RightDrawer",
-                typeof(RightDrawerRuntime)
-            );
-
-            ElementSaveExtensions.RegisterGueInstantiationType(
-                "Ultrawave/ButtonIcon",
-                typeof(CustomButtonRuntime)
-            );
-
-            ElementSaveExtensions.RegisterGueInstantiationType(
-                "Ultrawave/ButtonSolid",
-                typeof(CustomButtonRuntime)
-            );
-            #endregion
-
-            currentScreen = gumProject.Screens.Find(screen => screen.Name == "ingame\\Default").ToGraphicalUiElement(SystemManagers.Default, addToManagers: false);
+            currentScreen = gumProject.Screens.Find(screen => screen.Name == "Default").ToGraphicalUiElement(SystemManagers.Default, addToManagers: false);
             currentScreen.AddToManagers(SystemManagers.Default, null);
-
-            var ScrollViewerInstance = ((InGameDefaultRuntime)currentScreen).GetElement<RightDrawerRuntime>("RightDrawerInstance").Body.ContentContainer.GetGraphicalUiElementByName("ScrollViewerInstance") as CustomScrollViewerRuntime;
-            ScrollViewerInstance.FormsControl.InnerPanel.ChildrenLayout = ChildrenLayout.TopToBottomStack;
-            ScrollViewerInstance.FormsControl.InnerPanel.StackSpacing = 8;
-
-            var random = new System.Random();
-            for (int i = 0; i < 30; i++)
-            {
-                var innerRectangle = new ColoredRectangleRuntime();
-                innerRectangle.XUnits = Gum.Converters.GeneralUnitType.PixelsFromMiddle;
-                innerRectangle.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
-                innerRectangle.X = 0;
-                innerRectangle.Y = 0;
-                innerRectangle.Width = 50;
-                innerRectangle.Height = 50;
-                innerRectangle.Color = new Color(random.Next(255), random.Next(255), random.Next(255));
-
-                ScrollViewerInstance.FormsControl.InnerPanel.Children.Add(innerRectangle);
-            }
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            texture = Content.Load<Texture2D>("GumDefaults2/UISpriteSheet");
         }
 
         protected override void Update(GameTime gameTime)

@@ -1,44 +1,46 @@
 ﻿using Gum.Managers;
+using Gum.Wireframe;
 using GumRuntime;
 using Microsoft.Xna.Framework;
 using MonoGameGum.GueDeriving;
 using RenderingLibrary;
+using System;
 
 namespace ScrollViewerIssues.Runtimes
 {
-    public class ChooseItemResearchRuntime : DisposableInteractiveGue
+    public class ItemRuntime : InteractiveGue
     {
-        public CustomScrollViewerRuntime ScrollViewerInstance { get; protected set; }
+        public SpriteRuntime SpriteInstance { get; protected set; }
 
-        public ChooseItemResearchRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true) : base()
+        public ItemRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true) : base()
         {
             if (fullInstantiation)
             {
-                var element = ObjectFinder.Self.GetComponent("Ultrawave/InGame/Drawer/Upgrades/ChooseItemResearch");
+                var element = ObjectFinder.Self.GetComponent("Item");
                 element.SetGraphicalUiElement(this, SystemManagers.Default);
             }
         }
 
+        public SpriteRuntime GetElement(string name)
+        {
+            var element = GetGraphicalUiElementByName(name) as SpriteRuntime;
+            if (element == null)
+            {
+                throw new Exception("Failed to load properly from Gum");
+            }
+            return element;
+        }
+
         public override void AfterFullCreation()
         {
-            ScrollViewerInstance = GetElement<CustomScrollViewerRuntime>("ScrollViewerInstance");
-            ScrollViewerInstance.FormsControl.InnerPanel.ChildrenLayout = ChildrenLayout.LeftToRightStack;
-            ScrollViewerInstance.FormsControl.InnerPanel.StackSpacing = 8;
+            SpriteInstance = GetElement("SpriteInstance");
 
-            var random = new System.Random();
-            for (int i = 0; i < 30; i++)
-            {
-                var innerRectangle = new ColoredRectangleRuntime();
-                innerRectangle.XUnits = Gum.Converters.GeneralUnitType.PixelsFromMiddle;
-                innerRectangle.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
-                innerRectangle.X = 0;
-                innerRectangle.Y = 0;
-                innerRectangle.Width = 50;
-                innerRectangle.Height = 50;
-                innerRectangle.Color = new Color(random.Next(255), random.Next(255), random.Next(255));
-
-                ScrollViewerInstance.FormsControl.InnerPanel.Children.Add(innerRectangle);
-            }
+            SpriteInstance.Texture = Game1.texture;
+            SpriteInstance.TextureAddress = TextureAddress.Custom;
+            SpriteInstance.TextureLeft = 0;
+            SpriteInstance.TextureTop = 0;
+            SpriteInstance.TextureWidth = 150;
+            SpriteInstance.TextureHeight = 150;
         }
     }
 }
