@@ -36,11 +36,11 @@ namespace ScrollViewerIssues.Runtimes
             SpriteInstance = GetElement("SpriteInstance");
 
             SpriteInstance.Texture = Game1.texture;
+            //SpriteInstance.TextureLeft = 0;
+            //SpriteInstance.TextureTop = 0;
+            //SpriteInstance.TextureWidth = 150;
+            //SpriteInstance.TextureHeight = 150;
             SpriteInstance.TextureAddress = TextureAddress.Custom;
-            SpriteInstance.TextureLeft = 0;
-            SpriteInstance.TextureTop = 0;
-            SpriteInstance.TextureWidth = 150;
-            SpriteInstance.TextureHeight = 150;
         }
     }
 }
